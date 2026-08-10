@@ -124,6 +124,7 @@ cp permission-gate.ts ~/.prime/agent/extensions/
 |-----------|-------------|
 | `custom-provider-anthropic/` | Custom Anthropic provider with OAuth support and custom streaming implementation |
 | `custom-provider-gitlab-duo/` | GitLab Duo provider using the inherited `@earendil-works/pi-ai` streaming API through a proxy |
+| `openai-api-gateway/` | Local OpenAI Responses gateway with opaque `/responses/compact` state persisted and replayed across Prime compactions |
 
 ### External Dependencies
 

@@ -1,5 +1,7 @@
 # Development Rules
 
+Current work continuity artifact: `docs/continuity/openai-responses-compact.md`.
+
 ## Conversational Style
 
 - No fluff or cheerful filler text

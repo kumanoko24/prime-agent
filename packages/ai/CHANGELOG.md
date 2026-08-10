@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Exported the OpenAI Responses message converter for custom providers that need exact Responses input items.
+
 ## [0.7.1] - 2026-08-07
 
 ## [0.7.0] - 2026-08-05

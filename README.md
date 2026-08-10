@@ -30,6 +30,8 @@ Prime Agent: A Self-Improving RLM Agent
 
 Prime Agent is an open-source coding and research agent for general and long-running work. It is designed around two core abstractions:
 
+Current development continuity artifact: [`docs/continuity/openai-responses-compact.md`](docs/continuity/openai-responses-compact.md).
+
 - The **[Recursive Language Model (RLM)](https://www.primeintellect.ai/blog/rlm)** treats context as variables (*prompt-as-a-variable*) and tools like recursive subagents as function calls (*programmatic tool /sub-agent calling*) inside a persistent REPL.
 - The **[Continual Harness](https://arxiv.org/abs/2605.09998)** stores supplemental prompts, memories, skill descriptions, and reusable subagent specifications as durable state that Prime Agent can refine through small, evidence-backed updates, local to the session by default.
 
