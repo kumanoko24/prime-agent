@@ -1,6 +1,6 @@
 # OpenAI Responses Native Compaction Continuity
 
-Updated: 2026-08-11 21:00 UTC+8
+Updated: 2026-08-12 02:07 UTC+8
 
 ## Cause and objective
 
@@ -26,7 +26,7 @@ Make Noel's fork the canonical writable remote and the actual CLI source:
 
 - `origin` is `https://github.com/kumanoko24/prime-agent.git` and local `main` tracks `origin/main`;
 - `upstream` is `https://github.com/PrimeIntellect-ai/prime-agent`;
-- upstream `main` through `14d6e7491` is merged after the native compact commit;
+- upstream `main` through `47dccfad4` is merged after the native compact commit;
 - `~/.local/bin/prime-agent` launches `/Volumes/K/Works/prime-agent/prime-agent.sh`, while the prior npm `prime-agent@0.7.1` remains untouched as rollback;
 - the gateway extension imports its converter and implementation from this fork, not the old npm package;
 - source-mode extension resolution prefers workspace `dist`, then workspace `src`, then an installed package, and explicitly supports the `pi-ai/mcp` subpath.
@@ -50,3 +50,8 @@ Recovery boundary: move `~/.local/bin/prime-agent` aside so PATH falls back to t
 - PASS: an isolated source-launched daemon at `/tmp/prime-fork-rbv.G2N1ea/daemon.sock` used Luna/max through port 2234 and returned `PRIME_FORK_SOURCE_LUNA_MAX_RBV_PASS`; its supervisor cwd was `/Volumes/K/Works/prime-agent`.
 - Cleaned: `shutdownDaemonAndWait` returned `stopped:true` for the isolated RBV socket, and both its supervisor and worker exited; unrelated Prime PIDs 95829 and 95883 remained running and were not signalled.
 - Observed outside this milestone: `status --json` is advertised by help but rejected, while placing `--daemon-socket` before `status` treats `status` as a prompt. This did not affect the fork install or compaction flow and remains unmodified.
+- PASS: the 2026-08-12 CUMI refresh merged upstream commits `795a21de6` and `47dccfad4` as merge commit `d4a7addcb`, preserving all fork commits and the compact extension.
+- PASS: `npm ci` installed the merged lockfile with npm 11.12.1; `npm run check` passed and the Down Arrow, extension-loader, and compact focused suites passed 48/48 tests on Vitest 4.1.10.
+- PASS: the refreshed source-linked install listed all three 272K/128K gateway models, and an isolated Luna/max request returned `PRIME_CUMI_FORK_INSTALL_RBV_PASS`.
+- PASS: isolated daemon provenance showed launcher argv `/Volumes/K/Works/prime-agent/prime-agent.sh --mode daemon`, daemon cwd `/Volumes/K/Works/prime-agent`, and protocol shutdown `stopped:true`.
+- Observed from the upstream lockfile: `npm audit` reports one moderate transitive `protobufjs@7.6.4` denial-of-service advisory through `@google/genai`; no off-upstream audit mutation was applied.
