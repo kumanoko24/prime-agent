@@ -55,3 +55,5 @@ Recovery boundary: move `~/.local/bin/prime-agent` aside so PATH falls back to t
 - PASS: the refreshed source-linked install listed all three 272K/128K gateway models, and an isolated Luna/max request returned `PRIME_CUMI_FORK_INSTALL_RBV_PASS`.
 - PASS: isolated daemon provenance showed launcher argv `/Volumes/K/Works/prime-agent/prime-agent.sh --mode daemon`, daemon cwd `/Volumes/K/Works/prime-agent`, and protocol shutdown `stopped:true`.
 - Observed from the upstream lockfile: `npm audit` reports one moderate transitive `protobufjs@7.6.4` denial-of-service advisory through `@google/genai`; no off-upstream audit mutation was applied.
+- Deployed: the prior default daemon PID 95829 reported zero active sessions, was stopped through `shutdownDaemonAndWait`, and was replaced by fork-launched default daemon PID 80357 with cwd `/Volumes/K/Works/prime-agent`.
+- PASS: the refreshed default daemon used Luna/max through port 2234, returned `PRIME_CUMI_DEFAULT_DAEMON_RBV_PASS`, and reported `current` with zero active sessions after the rollout.
