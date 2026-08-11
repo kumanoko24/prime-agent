@@ -47,3 +47,6 @@ Recovery boundary: move `~/.local/bin/prime-agent` aside so PATH falls back to t
 - PASS: `kumanoko24/prime-agent` exists; local `main` tracks its `origin/main`; upstream's eight newer commits were merged as `0f2e1acf7` and pushed.
 - PASS: source-mode extension regression changed from 22 failures to 29/29 passing after adding workspace source fallbacks and the explicit MCP subpath.
 - PASS: the fork launcher resolves first in PATH and lists Luna, Sol, and Terra from `openai-api-gateway`, each with 272K context and 128K max output.
+- PASS: an isolated source-launched daemon at `/tmp/prime-fork-rbv.G2N1ea/daemon.sock` used Luna/max through port 2234 and returned `PRIME_FORK_SOURCE_LUNA_MAX_RBV_PASS`; its supervisor cwd was `/Volumes/K/Works/prime-agent`.
+- Cleaned: `shutdownDaemonAndWait` returned `stopped:true` for the isolated RBV socket, and both its supervisor and worker exited; unrelated Prime PIDs 95829 and 95883 remained running and were not signalled.
+- Observed outside this milestone: `status --json` is advertised by help but rejected, while placing `--daemon-socket` before `status` treats `status` as a prompt. This did not affect the fork install or compaction flow and remains unmodified.
