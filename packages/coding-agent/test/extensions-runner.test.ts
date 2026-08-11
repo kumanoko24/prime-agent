@@ -289,6 +289,27 @@ describe("ExtensionRunner", () => {
 	});
 
 	describe("tool collection", () => {
+		it("loads pi-ai MCP subpath imports in source mode", async () => {
+			const extCode = `
+				import { registerBuiltinMcpOAuthProviders } from "@earendil-works/pi-ai/mcp";
+				export default function(pi) {
+					if (typeof registerBuiltinMcpOAuthProviders !== "function") {
+						throw new Error("pi-ai MCP subpath did not resolve");
+					}
+					pi.registerCommand("mcp-subpath-loaded", {
+						description: "MCP subpath loaded",
+						handler: async () => {},
+					});
+				}
+			`;
+			fs.writeFileSync(path.join(extensionsDir, "mcp-subpath.ts"), extCode);
+
+			const result = await discoverAndLoadExtensions([], tempDir, tempDir);
+
+			expect(result.errors).toEqual([]);
+			expect(result.extensions).toHaveLength(1);
+		});
+
 		it("collects tools from multiple extensions", async () => {
 			const toolCode = (name: string) => `
 				import { Type } from "typebox";

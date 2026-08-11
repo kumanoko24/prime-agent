@@ -45,31 +45,42 @@ function getAliases(): Record<string, string> {
 	const typeboxValueEntry = require.resolve("typebox/value");
 
 	const packagesRoot = path.resolve(__dirname, "../../../../");
-	const resolveWorkspaceOrImport = (workspaceRelativePath: string, specifier: string): string => {
-		const workspacePath = path.join(packagesRoot, workspaceRelativePath);
-		if (fs.existsSync(workspacePath)) {
-			return workspacePath;
+	const resolveWorkspaceOrImport = (workspaceRelativePaths: string[], specifier: string): string => {
+		for (const workspaceRelativePath of workspaceRelativePaths) {
+			const workspacePath = path.join(packagesRoot, workspaceRelativePath);
+			if (fs.existsSync(workspacePath)) {
+				return workspacePath;
+			}
 		}
 		return fileURLToPath(import.meta.resolve(specifier));
 	};
 
 	const piCodingAgentEntry = packageIndex;
-	const piAgentCoreEntry = resolveWorkspaceOrImport("agent/dist/index.js", "@earendil-works/pi-agent-core");
-	const piTuiEntry = resolveWorkspaceOrImport("tui/dist/index.js", "@earendil-works/pi-tui");
-	const piAiEntry = resolveWorkspaceOrImport("ai/dist/index.js", "@earendil-works/pi-ai");
-	const piAiOauthEntry = resolveWorkspaceOrImport("ai/dist/oauth.js", "@earendil-works/pi-ai/oauth");
+	const piAgentCoreEntry = resolveWorkspaceOrImport(
+		["agent/dist/index.js", "agent/src/index.ts"],
+		"@earendil-works/pi-agent-core",
+	);
+	const piTuiEntry = resolveWorkspaceOrImport(["tui/dist/index.js", "tui/src/index.ts"], "@earendil-works/pi-tui");
+	const piAiEntry = resolveWorkspaceOrImport(["ai/dist/index.js", "ai/src/index.ts"], "@earendil-works/pi-ai");
+	const piAiOauthEntry = resolveWorkspaceOrImport(
+		["ai/dist/oauth.js", "ai/src/oauth.ts"],
+		"@earendil-works/pi-ai/oauth",
+	);
+	const piAiMcpEntry = resolveWorkspaceOrImport(["ai/dist/mcp.js", "ai/src/mcp.ts"], "@earendil-works/pi-ai/mcp");
 
 	_aliases = {
 		"@earendil-works/pi-coding-agent": piCodingAgentEntry,
 		"@earendil-works/pi-agent-core": piAgentCoreEntry,
 		"@earendil-works/pi-tui": piTuiEntry,
-		"@earendil-works/pi-ai": piAiEntry,
 		"@earendil-works/pi-ai/oauth": piAiOauthEntry,
+		"@earendil-works/pi-ai/mcp": piAiMcpEntry,
+		"@earendil-works/pi-ai": piAiEntry,
 		"@mariozechner/pi-coding-agent": piCodingAgentEntry,
 		"@mariozechner/pi-agent-core": piAgentCoreEntry,
 		"@mariozechner/pi-tui": piTuiEntry,
-		"@mariozechner/pi-ai": piAiEntry,
 		"@mariozechner/pi-ai/oauth": piAiOauthEntry,
+		"@mariozechner/pi-ai/mcp": piAiMcpEntry,
+		"@mariozechner/pi-ai": piAiEntry,
 		typebox: typeboxEntry,
 		"typebox/compile": typeboxCompileEntry,
 		"typebox/value": typeboxValueEntry,
