@@ -4,6 +4,7 @@
 
 - Added an OpenAI Responses gateway extension example with native `/responses/compact` persistence and replay.
 - Fixed source-mode extensions failing to resolve workspace packages and the `@earendil-works/pi-ai/mcp` subpath without a prior build.
+- Fixed the source launcher failing outside the checkout after a clean dependency install because workspace packages resolved missing `dist` files.
 - Fixed fullscreen wheel scrolling in Ghostty while retaining application link clicks; set `terminal.fullscreenMouse` to `false` to use native Cmd-click instead.
 - Changed the agents view to sort idle and inactive sessions by last message time, newest first, while keeping running agents in stable creation order.
 - Fixed `openai-codex` models being invisible to `rlm` subagents and `find_models` because model discovery reported Prime Agent's own version as the Codex client version ([#1375](https://github.com/PrimeIntellect-ai/prime-agent/pull/1375) by [@bilelrais](https://github.com/bilelrais)).

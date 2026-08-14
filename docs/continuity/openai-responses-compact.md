@@ -1,6 +1,6 @@
 # OpenAI Responses Native Compaction Continuity
 
-Updated: 2026-08-15 06:13 UTC+8
+Updated: 2026-08-15 06:53 UTC+8
 
 ## Cause and objective
 
@@ -65,3 +65,8 @@ Recovery boundary: restore `~/.prime/agent/backups/20260815-0615-cumi-fork-reins
 - Cleaned: isolated daemon shutdown returned `stopped:true`, and its exact socket no longer had a listener.
 - Deployed: the prior default daemon held two unattached `needs_input` sessions with no streaming, tools, queue, or RLM work; protocol 7/schema 16 matched the fork, both JSONLs were backed up, and exact-socket shutdown appended only their durable `archived` state.
 - PASS: the replacement default daemon PID 9753 has cwd `/Volumes/K/Works/prime-agent`, reported `current` with zero sessions, and a real Luna/max request returned `PRIME_CUMI_DEFAULT_97B994_FORK_RBV_PASS`.
+- Corrected NO-PASS: the initial reinstall verdict missed bare interactive startup from outside the checkout. `npm ci` removed untracked workspace `dist` trees, and `prime-agent.sh` started `tsx` without the repository `tsconfig.json`, so a fresh client from `~/empty` resolved `@earendil-works/pi-agent-core` to missing `dist/index.js`. The earlier `-p` request reused an already-running daemon and did not exercise this client import graph.
+- Fixed: the source launcher now passes `--tsconfig /Volumes/K/Works/prime-agent/tsconfig.json`, preserving the user's cwd while resolving workspace packages directly from source without generated `dist` artifacts.
+- Prevention PASS: `check:source-launcher` starts the real launcher from a fresh external temp directory and requires the exact package version; the new check and full `npm run check` passed with all workspace `dist` directories absent.
+- Rendered Human PoV PASS: after attaching a real terminal client to the bounded tmux harness, bare `prime-agent` from `/Users/noelbao/empty` rendered the Prime splash, v0.7.2, `cwd ~/empty`, selected model, prompt guidance, and controls. The blank detached capture was a no-client terminal-capability artifact, not the rendered user surface.
+- Cleaned: the exact test tmux session was removed, its zero-message draft was stopped through `prime-agent stop`, and the default daemon returned to `current` with zero sessions.
