@@ -1,6 +1,6 @@
 # OpenAI Responses Native Compaction Continuity
 
-Updated: 2026-08-12 02:07 UTC+8
+Updated: 2026-08-15 06:13 UTC+8
 
 ## Cause and objective
 
@@ -26,14 +26,14 @@ Make Noel's fork the canonical writable remote and the actual CLI source:
 
 - `origin` is `https://github.com/kumanoko24/prime-agent.git` and local `main` tracks `origin/main`;
 - `upstream` is `https://github.com/PrimeIntellect-ai/prime-agent`;
-- upstream `main` through `47dccfad4` is merged after the native compact commit;
-- `~/.local/bin/prime-agent` launches `/Volumes/K/Works/prime-agent/prime-agent.sh`, while the prior npm `prime-agent@0.7.1` remains untouched as rollback;
+- upstream `main` through `97b994c3d` is merged after the native compact commit;
+- `~/.local/bin/prime-agent` preserves the local MCP bearer-token export and launches `/Volumes/K/Works/prime-agent/prime-agent.sh`, while the npm `prime-agent@0.7.2` remains untouched as rollback;
 - the gateway extension imports its converter and implementation from this fork, not the old npm package;
 - source-mode extension resolution prefers workspace `dist`, then workspace `src`, then an installed package, and explicitly supports the `pi-ai/mcp` subpath.
 
 Success evidence: GitHub HEAD equality after push, clean tracking state, full `npm run check`, focused source-loader and compact tests, CLI process provenance, the 2234 model catalog, and a real isolated daemon request through the fork launcher.
 
-Recovery boundary: move `~/.local/bin/prime-agent` aside so PATH falls back to the untouched NVM npm installation, then restore `~/.prime/agent/backups/20260811-2100-fork-source-install/openai-api-gateway.ts`. Do not restart or replace unrelated active daemons.
+Recovery boundary: restore `~/.prime/agent/backups/20260815-0615-cumi-fork-reinstall/prime-agent` over `~/.local/bin/prime-agent` to return to the untouched NVM npm installation, then restore `~/.prime/agent/backups/20260811-2100-fork-source-install/openai-api-gateway.ts` if the gateway extension must also roll back. Do not restart or replace unrelated active daemons.
 
 ## Status
 
@@ -57,3 +57,11 @@ Recovery boundary: move `~/.local/bin/prime-agent` aside so PATH falls back to t
 - Observed from the upstream lockfile: `npm audit` reports one moderate transitive `protobufjs@7.6.4` denial-of-service advisory through `@google/genai`; no off-upstream audit mutation was applied.
 - Deployed: the prior default daemon PID 95829 reported zero active sessions, was stopped through `shutdownDaemonAndWait`, and was replaced by fork-launched default daemon PID 80357 with cwd `/Volumes/K/Works/prime-agent`.
 - PASS: the refreshed default daemon used Luna/max through port 2234, returned `PRIME_CUMI_DEFAULT_DAEMON_RBV_PASS`, and reported `current` with zero active sessions after the rollout.
+- PASS: the 2026-08-15 CUMI refresh merged 20 upstream commits through `97b994c3d` as merge commit `c303b0cad`; the only conflicts were the AI and coding-agent changelogs, where fork-only entries stayed under `[Unreleased]` and upstream v0.7.2 entries stayed in the released section.
+- PASS: `npm ci` installed the upstream lockfile with Node 24.15.0 and npm 11.12.1; `npm run check` passed, and 797 focused agent, AI, coding-agent, TUI, source-loader, native compact, daemon-ledger, host-request, resume, URL, and fullscreen tests passed.
+- Observed from the upstream lockfile: `npm audit` reports one moderate and two high advisories in `protobufjs`, `nanoid`, and direct `extract-zip`; `extract-zip` has no available fix, and no off-upstream or under-seven-day dependency mutation was applied.
+- Reinstalled: `~/.local/bin/prime-agent` now preserves `MCP_AUTH_TOKEN` setup and executes this fork's `prime-agent.sh`; the overwritten upstream wrapper and both pre-rollover session JSONLs are recoverable under `~/.prime/agent/backups/20260815-0615-cumi-fork-reinstall/`.
+- PASS: port 2234 reported healthy and ready with five eligible accounts; the installed fork listed Luna, Sol, and Terra at 272K/128K, and an isolated Luna/max request returned `PRIME_CUMI_97B994_FORK_REINSTALL_RBV_PASS` from a daemon whose cwd was this repository.
+- Cleaned: isolated daemon shutdown returned `stopped:true`, and its exact socket no longer had a listener.
+- Deployed: the prior default daemon held two unattached `needs_input` sessions with no streaming, tools, queue, or RLM work; protocol 7/schema 16 matched the fork, both JSONLs were backed up, and exact-socket shutdown appended only their durable `archived` state.
+- PASS: the replacement default daemon PID 9753 has cwd `/Volumes/K/Works/prime-agent`, reported `current` with zero sessions, and a real Luna/max request returned `PRIME_CUMI_DEFAULT_97B994_FORK_RBV_PASS`.
