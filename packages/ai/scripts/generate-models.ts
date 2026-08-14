@@ -92,6 +92,11 @@ const DEEPSEEK_V4_THINKING_LEVEL_MAP = {
 	max: null,
 } as const;
 
+const OPENCODE_GO_DEEPSEEK_V4_THINKING_LEVEL_MAP = {
+	...DEEPSEEK_V4_THINKING_LEVEL_MAP,
+	max: "max",
+} as const;
+
 const KIMI_K3_THINKING_LEVEL_MAP = {
 	off: null,
 	minimal: null,
@@ -250,6 +255,12 @@ function mergeThinkingLevelMap(model: Model<any>, map: NonNullable<Model<any>["t
 	model.thinkingLevelMap = { ...model.thinkingLevelMap, ...map };
 }
 
+function getDeepSeekV4ThinkingLevelMap(provider: KnownProvider) {
+	return provider === "opencode-go"
+		? OPENCODE_GO_DEEPSEEK_V4_THINKING_LEVEL_MAP
+		: DEEPSEEK_V4_THINKING_LEVEL_MAP;
+}
+
 function supportsOpenAiXhigh(modelId: string): boolean {
 	return (
 		modelId.includes("gpt-5.2") ||
@@ -323,7 +334,7 @@ function applyThinkingLevelMetadata(model: Model<any>): void {
 		mergeThinkingLevelMap(model, { off: null, max: "max" });
 	}
 	if (model.api === "openai-completions" && model.id.includes("deepseek-v4")) {
-		mergeThinkingLevelMap(model, DEEPSEEK_V4_THINKING_LEVEL_MAP);
+		mergeThinkingLevelMap(model, getDeepSeekV4ThinkingLevelMap(model.provider));
 	}
 	const kimiK3Id = model.id.toLowerCase();
 	if (!model.thinkingLevelMap && (/^k3(-|$)/.test(kimiK3Id) || /(^|\/)kimi-k3(-|$)/.test(kimiK3Id))) {
@@ -1919,7 +1930,7 @@ async function generateModels() {
 						}
 					: DEEPSEEK_V4_COMPAT),
 			};
-			mergeThinkingLevelMap(candidate, DEEPSEEK_V4_THINKING_LEVEL_MAP);
+			mergeThinkingLevelMap(candidate, getDeepSeekV4ThinkingLevelMap(candidate.provider));
 		}
 	}
 

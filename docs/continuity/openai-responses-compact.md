@@ -20,7 +20,7 @@ Success evidence: focused tests, full `npm run check`, committed source, install
 
 Recovery boundary: restore the timestamped `~/.prime/agent` extension backup. No daemon protocol, credentials, or session schema are changed.
 
-## Current milestone: fork-backed source installation
+## Previous milestone: fork-backed source installation
 
 Make Noel's fork the canonical writable remote and the actual CLI source:
 
@@ -34,6 +34,14 @@ Make Noel's fork the canonical writable remote and the actual CLI source:
 Success evidence: GitHub HEAD equality after push, clean tracking state, full `npm run check`, focused source-loader and compact tests, CLI process provenance, the 2234 model catalog, and a real isolated daemon request through the fork launcher.
 
 Recovery boundary: restore `~/.prime/agent/backups/20260815-0615-cumi-fork-reinstall/prime-agent` over `~/.local/bin/prime-agent` to return to the untouched NVM npm installation, then restore `~/.prime/agent/backups/20260811-2100-fork-source-install/openai-api-gateway.ts` if the gateway extension must also roll back. Do not restart or replace unrelated active daemons.
+
+## Current milestone: OpenCode Go DeepSeek V4 max effort
+
+Expose `max` as a selectable reasoning effort for OpenCode Go's `deepseek-v4-flash` and `deepseek-v4-pro`, while preserving their existing `xhigh -> max` mapping and leaving the DeepSeek and OpenRouter providers unchanged.
+
+Success evidence: generated catalog regression, full `npm run check`, real `--thinking max` requests to both OpenCode Go models, and a fresh default daemon request through the globally installed fork wrapper.
+
+Recovery boundary: revert this milestone commit. No protocol, credential, session schema, or provider endpoint changes are involved.
 
 ## Status
 
@@ -70,3 +78,7 @@ Recovery boundary: restore `~/.prime/agent/backups/20260815-0615-cumi-fork-reins
 - Prevention PASS: `check:source-launcher` starts the real launcher from a fresh external temp directory and requires the exact package version; the new check and full `npm run check` passed with all workspace `dist` directories absent.
 - Rendered Human PoV PASS: after attaching a real terminal client to the bounded tmux harness, bare `prime-agent` from `/Users/noelbao/empty` rendered the Prime splash, v0.7.2, `cwd ~/empty`, selected model, prompt guidance, and controls. The blank detached capture was a no-client terminal-capability artifact, not the rendered user surface.
 - Cleaned: the exact test tmux session was removed, its zero-message draft was stopped through `prime-agent stop`, and the default daemon returned to `current` with zero sessions.
+- PASS: OpenCode Go DeepSeek V4 Flash and Pro now expose `off`, `high`, `xhigh`, and `max`; both `xhigh` and `max` serialize to the provider's `max` effort, while direct DeepSeek and OpenRouter metadata remain unchanged.
+- PASS: the focused reasoning-level suite passed 18/18 tests and the full `npm run check` completed with no warnings or type errors.
+- PASS: isolated live requests returned `OPENCODE_GO_V4_FLASH_MAX_RBV_PASS` and `OPENCODE_GO_V4_PRO_MAX_RBV_PASS` with `--thinking max`; the isolated daemon was stopped through the protocol and its empty temp directory was removed.
+- Deployed: default daemon PID 9753 had one idle, non-busy session and was stopped through the protocol. The installed fork wrapper started fresh daemon PID 98392, returned `FRESH_DEFAULT_OPENCODE_GO_V4_MAX_RBV_PASS`, and reported zero active or busy sessions afterward.

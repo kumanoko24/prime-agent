@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 - Exported the OpenAI Responses message converter for custom providers that need exact Responses input items.
+- Fixed OpenCode Go DeepSeek V4 Flash and Pro exposing `max` reasoning effort alongside `xhigh`.
 
 ## [0.7.2] - 2026-08-11
 

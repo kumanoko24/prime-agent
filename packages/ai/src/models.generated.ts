@@ -9597,7 +9597,7 @@ export const MODELS = {
 			baseUrl: "https://opencode.ai/zen/go/v1",
 			compat: {"requiresReasoningContentOnAssistantMessages":true,"thinkingFormat":"deepseek"},
 			reasoning: true,
-			thinkingLevelMap: {"minimal":null,"low":null,"medium":null,"high":"high","xhigh":"max"},
+			thinkingLevelMap: {"minimal":null,"low":null,"medium":null,"high":"high","xhigh":"max","max":"max"},
 			input: ["text"],
 			cost: {
 				input: 0.14,
@@ -9616,7 +9616,7 @@ export const MODELS = {
 			baseUrl: "https://opencode.ai/zen/go/v1",
 			compat: {"requiresReasoningContentOnAssistantMessages":true,"thinkingFormat":"deepseek"},
 			reasoning: true,
-			thinkingLevelMap: {"minimal":null,"low":null,"medium":null,"high":"high","xhigh":"max"},
+			thinkingLevelMap: {"minimal":null,"low":null,"medium":null,"high":"high","xhigh":"max","max":"max"},
 			input: ["text"],
 			cost: {
 				input: 0.435,
